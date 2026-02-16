@@ -24,16 +24,31 @@
         </div>
 
         <header class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 no-print">
-            <div>
-                <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Task Center</h1>
-                <p class="text-slate-500 mt-2">Welcome back, Nhico Noel Ortazon.</p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-                <a href="{{ route('notes.index', ['week' => 1]) }}" class="px-5 py-2.5 bg-white border rounded-2xl hover:bg-slate-100 font-semibold text-sm transition-all">This Week</a>
-                <a href="{{ route('notes.export') }}" class="px-5 py-2.5 bg-slate-800 text-white rounded-2xl hover:bg-slate-700 font-semibold text-sm transition-all">CSV Export</a>
-                <button onclick="window.print()" class="px-5 py-2.5 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 font-semibold text-sm shadow-lg shadow-indigo-100 transition-all">Generate PDF</button>
-            </div>
-        </header>
+    <div>
+        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Task Center</h1>
+        <p class="text-slate-500 mt-2">Welcome back, Nhico Noel Ortazon.</p>
+    </div>
+    
+    <div class="flex flex-wrap gap-2">
+        <a href="{{ route('notes.index') }}" 
+           class="px-5 py-2.5 rounded-2xl font-semibold text-sm transition-all border {{ $currentFilter == 'week' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+           This Week
+        </a>
+        
+        <a href="{{ route('notes.index', ['filter' => 'all']) }}" 
+           class="px-5 py-2.5 rounded-2xl font-semibold text-sm transition-all border {{ $currentFilter == 'all' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50' }}">
+           All Records
+        </a>
+
+        <div class="h-10 w-[1px] bg-slate-200 mx-2 hidden md:block"></div>
+
+        <a href="{{ route('notes.export') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-800 rounded-2xl hover:bg-slate-50 font-semibold text-sm transition-all">CSV Export</a>
+        
+        <button onclick="window.print()" class="px-5 py-2.5 bg-indigo-600 text-white rounded-2xl font-semibold text-sm shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700">
+            Generate PDF
+        </button>
+    </div>
+</header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 no-print">
             <div class="bg-indigo-600 p-8 rounded-[2.5rem] text-white shadow-xl shadow-indigo-100 relative overflow-hidden">

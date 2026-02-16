@@ -11,18 +11,31 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         $query = Note::query();
+        
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
+        // Stats for the dashboard (always shows this week's count)
         $weekTotal = Note::whereBetween('task_date', [$startOfWeek, $endOfWeek])->count();
 
-        if ($request->has('week')) {
-            $query->whereBetween('task_date', [$startOfWeek, $endOfWeek]);
+        // FILTER LOGIC
+        // If 'filter' is 'all', show everything. 
+        // Otherwise (default), show only this week.
+        if ($request->get('filter') === 'all') {
+            $notes = $query->orderBy('task_date', 'desc')->get();
+            $currentFilter = 'all';
+        } else {
+            $notes = $query->whereBetween('task_date', [$startOfWeek, $endOfWeek])
+                           ->orderBy('task_date', 'asc')
+                           ->get();
+            $currentFilter = 'week';
         }
 
-        $notes = $query->orderBy('task_date', 'asc')->get();
-        return view('notes', compact('notes', 'weekTotal'));
+        return view('notes', compact('notes', 'weekTotal', 'currentFilter'));
     }
+
+    // ... (Keep your other store, edit, update, massDelete methods the same)
+
 
     public function store(Request $request)
     {
